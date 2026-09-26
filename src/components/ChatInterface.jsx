@@ -20,13 +20,44 @@ export default function ChatInterface({
   const audioChunksRef = useRef([]);
   const timerRef = useRef(null);
   const messagesEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+  const liveTranscriptRef = useRef('');
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isExtracting]);
 
-  // Handle Voice Recording via Web Audio API / MediaRecorder
+  // Handle Voice Recording via Web Audio API & Speech Recognition
   const startRecording = async () => {
+    liveTranscriptRef.current = '';
+
+    // Initialize native Web Speech Recognition API if available in browser
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = currentLang || 'hi-IN';
+
+        recognition.onresult = (event) => {
+          let currentTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            currentTranscript += event.results[i][0].transcript;
+          }
+          if (currentTranscript.trim()) {
+            liveTranscriptRef.current = currentTranscript.trim();
+            setInputText(currentTranscript.trim());
+          }
+        };
+
+        recognition.start();
+        recognitionRef.current = recognition;
+      } catch (e) {
+        console.warn("SpeechRecognition init warning:", e.message);
+      }
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorderRef.current = new MediaRecorder(stream);
@@ -40,7 +71,8 @@ export default function ChatInterface({
 
       mediaRecorderRef.current.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        await onSendVoice(audioBlob);
+        const realText = liveTranscriptRef.current;
+        await onSendVoice(audioBlob, realText);
         stream.getTracks().forEach(track => track.stop());
       };
 
@@ -60,16 +92,16 @@ export default function ChatInterface({
 
     } catch (err) {
       console.warn("Microphone permission denied or unavailable:", err.message);
-      // Fallback spoken sample text for demo
-      setIsRecording(true);
-      setTimeout(() => {
-        setIsRecording(false);
-        onSendMessage(t.speakingText || "I am a small farmer in UP with 1.5 acres of land.");
-      }, 2500);
+      setIsRecording(false);
     }
   };
 
   const stopRecording = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {}
+    }
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
     }
