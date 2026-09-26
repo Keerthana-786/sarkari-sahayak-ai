@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  }
+}
+
+/* Minimal Panel utility */
+.minimal-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.dark .minimal-panel {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+}
+
+/* Legal footnote citation box */
+.citation-box {
+  border-left: 2px solid #475569;
+  background: #f8fafc;
+}
+
+.dark .citation-box {
+  border-left: 2px solid #94a3b8;
+  background: #1e293b;
+}
+
+/* Mic waveform pulse animation */
+@keyframes wave {
+  0%, 100% { height: 4px; }
+  50% { height: 18px; }
+}
+
+.animate-wave-1 { animation: wave 0.8s ease-in-out infinite; }
+.animate-wave-2 { animation: wave 0.8s ease-in-out infinite 0.2s; }
+.animate-wave-3 { animation: wave 0.8s ease-in-out infinite 0.4s; }
+.animate-wave-4 { animation: wave 0.8s ease-in-out infinite 0.1s; }
+
+/* Custom printable media query */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-draft, #printable-draft * {
+    visibility: visible;
+  }
+  #printable-draft {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}

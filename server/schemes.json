@@ -1,0 +1,225 @@
+[
+  {
+    "id": "pm_kisan",
+    "name": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+    "name_hi": "पीएम-किसान (प्रधानमंत्री किसान सम्मान निधि)",
+    "name_ta": "பிஎம்-கிசான் (பிரதமர் கிசான் சம்மான் நிதி)",
+    "level": "central",
+    "state": "all",
+    "description": "Direct income support of ₹6,000 per year paid in three equal installments to small and marginal farmer families across India.",
+    "description_hi": "भारत भर के छोटे और सीमांत किसान परिवारों को ₹6,000 प्रति वर्ष की प्रत्यक्ष आय सहायता 3 समान किस्तों में दी जाती है।",
+    "description_ta": "இந்தியா முழுவதிலும் உள்ள சிறு மற்றும் குறு விவசாய குடும்பங்களுக்கு ஆண்டிற்கு ₹6,000 நேரடி உதவித்தொகையாக 3 தவணைகளில் வழங்கப்படுகிறது.",
+    "eligibility_criteria": [
+      {
+        "field": "occupation",
+        "operator": "eq",
+        "value": "farmer",
+        "source_clause": "Clause 3.1: Benefit is strictly restricted to landholding farmer families with active agricultural land in official state records.",
+        "source_clause_hi": "धारा 3.1: लाभ केवल उन भूधारक किसान परिवारों तक सीमित है जिनके नाम आधिकारिक राज्य अभिलेखों में कृषि भूमि दर्ज है।",
+        "source_clause_ta": "பிரிவு 3.1: அரசு வருவாய் பதிவேடுகளில் வேளாண் நிலம் வைத்துள்ள விவசாய குடும்பங்களுக்கு மட்டுமே இச்சலுகை வழங்கப்படும்."
+      },
+      {
+        "field": "land_ownership_acres",
+        "operator": "lte",
+        "value": 5,
+        "source_clause": "Clause 3.2: Cultivable landholding size must not exceed 5.0 acres (2.0 hectares) as per local Revenue Department land records.",
+        "source_clause_hi": "धारा 3.2: स्थानीय राजस्व विभाग के भूमि अभिलेखों के अनुसार कृषि योग्य भूमि का आकार 5.0 एकड़ (2.0 हेक्टेयर) से अधिक नहीं होना चाहिए।",
+        "source_clause_ta": "பிரிவு 3.2: உள்ளூர் வருவாய்த்துறை நிலப் பதிவேடுகளின்படி விவசாய நிலத்தின் பரப்பளவு 5.0 ஏக்கருக்கு மிகாமல் இருக்க வேண்டும்."
+      },
+      {
+        "field": "annual_income",
+        "operator": "lte",
+        "value": 250000,
+        "source_clause": "Clause 4.3: High-income tax-paying households earning above ₹2,50,000 per year are excluded from income support.",
+        "source_clause_hi": "धारा 4.3: ₹2,50,000 प्रति वर्ष से अधिक कमाने वाले उच्च आय वाले करदाता परिवारों को आय सहायता से बाहर रखा गया है।",
+        "source_clause_ta": "பிரிவு 4.3: ஆண்டு வருமானம் ₹2,50,000-க்கு மேல் உள்ள வருமான வரி செலுத்தும் குடும்பங்களுக்கு இத்திட்டம் பொருந்தாது."
+      }
+    ],
+    "required_documents": [
+      "Aadhaar Card (Linked to Bank Account)",
+      "Land Record Certificate (Khasra / Khatauni / Chitta)",
+      "Active Bank Account Passbook",
+      "Self-Declaration Form for Small Landholders"
+    ],
+    "required_documents_hi": [
+      "आधार कार्ड (बैंक खाते से लिंक)",
+      "भूमि रिकॉर्ड प्रमाण पत्र (खसरा / खतौनी / चिट्टा)",
+      "सक्रिय बैंक खाता पासबुक",
+      "छोटे भूमिधारकों के लिए स्व-घोषणा पत्र"
+    ],
+    "required_documents_ta": [
+      "ஆதார் அட்டை (வங்கி கணக்குடன் இணைக்கப்பட்டது)",
+      "நிலப் பட்டா / சிட்டா சான்றிதழ்",
+      "வங்கி கணக்கு புத்தக நகல்",
+      "சிறு விவசாயி சுய அறிவிப்பு படிவம்"
+    ],
+    "benefit_amount_or_type": "₹6,000 / year (3 equal installments of ₹2,000)",
+    "benefit_amount_or_type_hi": "₹6,000 / वर्ष (₹2,000 की 3 समान किस्तें)",
+    "benefit_amount_or_type_ta": "ஆண்டுக்கு ₹6,000 (₹2,000 வீதம் 3 தவணைகள்)",
+    "conflicts_with": []
+  },
+  {
+    "id": "ayushman_bharat",
+    "name": "Ayushman Bharat (PM-JAY National Health Protection)",
+    "name_hi": "आयुष्मान भारत (पीएम-जय राष्ट्रीय स्वास्थ्य सुरक्षा)",
+    "name_ta": "ஆயுஷ்மான் பாரத் (பிஎம்-ஜேஏஒய் தேசிய சுகாதார பாதுகாப்பு)",
+    "level": "central",
+    "state": "all",
+    "description": "Health coverage up to ₹5 Lakh per family per year for secondary and tertiary care hospitalization across empanelled hospitals.",
+    "description_hi": "सूचिबद्ध अस्पतालों में द्वितीयक और तृतीयक देखभाल अस्पताल में भर्ती के लिए प्रति परिवार प्रति वर्ष ₹5 लाख तक का स्वास्थ्य कवर।",
+    "description_ta": "அரசு மற்றும் அங்கீகரிக்கப்பட்ட மருத்துவமனைகளில் மருத்துவ சிகிச்சைக்காக குடும்பத்திற்கு ஆண்டுக்கு ₹5 லட்சம் வரை இலவச மருத்துவ காப்பீடு.",
+    "eligibility_criteria": [
+      {
+        "field": "annual_income",
+        "operator": "lte",
+        "value": 200000,
+        "source_clause": "Clause 2.4: Target beneficiaries identified as low-income families with annual household income ≤ ₹2,00,000.",
+        "source_clause_hi": "धारा 2.4: लक्षित लाभार्थियों की पहचान ≤ ₹2,00,000 की वार्षिक पारिवारिक आय वाले कम आय वाले परिवारों के रूप में की गई है।",
+        "source_clause_ta": "பிரிவு 2.4: ஆண்டு குடும்ப வருமானம் ₹2,00,000-க்கு குறைவாக உள்ள குடும்பங்கள் இத்திட்டத்திற்கு தகுதியானவர்கள்."
+      },
+      {
+        "field": "government_employee",
+        "operator": "eq",
+        "value": false,
+        "source_clause": "Clause 5.1: Regular government employees or workers with existing formal medical insurance (ESI/CGHS) are excluded.",
+        "source_clause_hi": "धारा 5.1: नियमित सरकारी कर्मचारी या मौजूदा औपचारिक चिकित्सा बीमा (ESI/CGHS) वाले कर्मचारी बाहर रखे गए हैं।",
+        "source_clause_ta": "பிரிவு 5.1: நிரந்தர அரசு ஊழியர்கள் மற்றும் ஏற்கனவே மருத்துவ காப்பீடு (ESI) உள்ளவர்கள் இத்திட்டத்தில் சேர முடியாது."
+      }
+    ],
+    "required_documents": [
+      "Aadhaar Card",
+      "Ration Card (BPL / PHH Priority Household)",
+      "Income Certificate (Issued by Tehsildar)",
+      "Family ID Card"
+    ],
+    "required_documents_hi": [
+      "आधार कार्ड",
+      "राशन कार्ड (बीपीएल / प्राथमिकता परिवार)",
+      "आय प्रमाण पत्र (तहसीलदार द्वारा जारी)",
+      "परिवार पहचान पत्र"
+    ],
+    "required_documents_ta": [
+      "ஆதார் அட்டை",
+      "ரேஷன் அட்டை (குடும்ப அட்டை)",
+      "வருமான சான்றிதழ் (தாசில்தார் வழங்கியது)",
+      "குடும்ப அடையாள அட்டை"
+    ],
+    "benefit_amount_or_type": "₹5,00,000 / year cashless health insurance",
+    "benefit_amount_or_type_hi": "₹5,00,000 / वर्ष कैशलेस स्वास्थ्य बीमा",
+    "benefit_amount_or_type_ta": "ஆண்டுக்கு ₹5,00,000 வரை இலவச மருத்துவ காப்பீடு",
+    "conflicts_with": []
+  },
+  {
+    "id": "state_scholarship",
+    "name": "Tamil Nadu State Higher Education & Digital Assistance Grant",
+    "name_hi": "तमिलनाडु राज्य उच्च शिक्षा एवं डिजिटल सहायता अनुदान",
+    "name_ta": "தமிழ்நாடு மாநில உயர்கல்வி மற்றும் டிஜிட்டல் உதவித் திட்டம்",
+    "level": "state",
+    "state": "Tamil Nadu",
+    "description": "State financial assistance and monthly stipend for students in higher education degree and diploma programs.",
+    "description_hi": "उच्च शिक्षा डिग्री और डिप्लोमा कार्यक्रमों में पढ़ने वाली छात्राओं के लिए राज्य वित्तीय सहायता और मासिक वजीफा।",
+    "description_ta": "உயர்கல்வி படிக்கும் கல்லூரி மாணவிகளுக்கு மாதம் ₹1,000 கல்வி உதவித்தொகை மற்றும் மடிக்கணினி வழங்கும் திட்டம்.",
+    "eligibility_criteria": [
+      {
+        "field": "occupation",
+        "operator": "eq",
+        "value": "student",
+        "source_clause": "Clause 1.2: Applicant must be a full-time enrolled student in a government or government-aided higher education institute.",
+        "source_clause_hi": "धारा 1.2: आवेदक को सरकारी या सरकार सहायता प्राप्त उच्च शिक्षा संस्थान में पूर्णकालिक नामांकित छात्र होना चाहिए।",
+        "source_clause_ta": "பிரிவு 1.2: விண்ணப்பதாரர் அரசு அல்லது அரசு உதவிபெறும் கல்லூரியில் முழுநேர மாணவியாக படிக்க வேண்டும்."
+      },
+      {
+        "field": "gender",
+        "operator": "eq",
+        "value": "female",
+        "source_clause": "Clause 2.1: Special state empowerment quota requires applicant to be female pursuing undergraduate education.",
+        "source_clause_hi": "धारा 2.1: विशेष राज्य सशक्तिकरण कोटा के तहत आवेदक का स्नातक शिक्षा प्राप्त कर रही महिला होना आवश्यक है।",
+        "source_clause_ta": "பிரிவு 2.1: பெண்கள் உயர்கல்வி ஊக்குவிப்பு திட்டத்தின் கீழ் விண்ணப்பதாரர் மாணவியாக இருக்க வேண்டும்."
+      },
+      {
+        "field": "annual_income",
+        "operator": "lte",
+        "value": 250000,
+        "source_clause": "Clause 3.4: Gross family income from all sources must not exceed ₹2,50,000 per annum.",
+        "source_clause_hi": "धारा 3.4: सभी स्रोतों से कुल पारिवारिक आय ₹2,50,000 प्रति वर्ष से अधिक नहीं होनी चाहिए।",
+        "source_clause_ta": "பிரிவு 3.4: குடும்பத்தின் மொத்த ஆண்டு வருமானம் ₹2,50,000-க்கு மிகாமல் இருக்க வேண்டும்."
+      }
+    ],
+    "required_documents": [
+      "Aadhaar Card",
+      "College Bonafide Student Certificate",
+      "SSLC/HSC Marksheet",
+      "State Domicile Certificate",
+      "Income Certificate"
+    ],
+    "required_documents_hi": [
+      "आधार कार्ड",
+      "कॉलेज बोनाफाइड छात्र प्रमाण पत्र",
+      "10वीं/12वीं अंकपत्र",
+      "राज्य मूल निवास प्रमाण पत्र",
+      "आय प्रमाण पत्र"
+    ],
+    "required_documents_ta": [
+      "ஆதார் அட்டை",
+      "கல்லூரி மாணவர் சான்றிதழ் (Bonafide)",
+      "10ம்/12ம் வகுப்பு மதிப்பெண் சான்றிதழ்",
+      "இருப்பிட சான்றிதழ்",
+      "வருமான சான்றிதழ்"
+    ],
+    "benefit_amount_or_type": "₹12,000 / year direct cash stipend + Free Laptop Grant",
+    "benefit_amount_or_type_hi": "₹12,000 / वर्ष नकद वजीफा + मुफ्त लैपटॉप अनुदान",
+    "benefit_amount_or_type_ta": "ஆண்டுக்கு ₹12,000 கல்வி உதவித்தொகை + இலவச மடிக்கணினி",
+    "conflicts_with": ["state_housing_subsidy"]
+  },
+  {
+    "id": "state_housing_subsidy",
+    "name": "Kalaignar Kanavu Illam State Rural Housing Grant",
+    "name_hi": "कलैगनार कनावु इल्लम राज्य ग्रामीण आवास अनुदान",
+    "name_ta": "கலைஞர் கனவு இல்லம் கிராமப்புற வீட்டுவசதி திட்டம்",
+    "level": "state",
+    "state": "Tamil Nadu",
+    "description": "Financial assistance grant of ₹3,50,000 for constructing a permanent pucca house for homeless or kutcha house rural residents.",
+    "description_hi": "बेघर या कच्चे मकान में रहने वाले ग्रामीण निवासियों के लिए पक्का मकान बनाने हेतु ₹3,50,000 की वित्तीय सहायता।",
+    "description_ta": "கிராமப்புறங்களில் குடிசை வீடுகளில் வசிக்கும் மக்களுக்கு காங்ரீட் வீடு கட்ட ₹3,50,000 அரசு நிதியுதவி அளிக்கும் திட்டம்.",
+    "eligibility_criteria": [
+      {
+        "field": "annual_income",
+        "operator": "lte",
+        "value": 180000,
+        "source_clause": "Clause 4.1: Household annual income must be below ₹1,80,000 per year.",
+        "source_clause_hi": "धारा 4.1: परिवार की वार्षिक आय ₹1,80,000 प्रति वर्ष से कम होनी चाहिए।",
+        "source_clause_ta": "பிரிவு 4.1: குடும்பத்தின் ஆண்டு வருமானம் ₹1,80,000-க்கு குறைவாக இருக்க வேண்டும்."
+      },
+      {
+        "field": "pucca_house_owned",
+        "operator": "eq",
+        "value": false,
+        "source_clause": "Clause 2.3: Beneficiary family must not own any existing RCC pucca house anywhere in the state.",
+        "source_clause_hi": "धारा 2.3: लाभार्थी परिवार के पास राज्य में कहीं भी कोई मौजूदा आरसीसी पक्का मकान नहीं होना चाहिए।",
+        "source_clause_ta": "பிரிவு 2.3: பயனாளி குடும்பத்திற்கு மாநிலத்தில் எங்கும் சொந்தமாக காங்கிரீட் வீடு இருக்கக்கூடாது."
+      }
+    ],
+    "required_documents": [
+      "Aadhaar Card",
+      "Patta / House Site Title Deed",
+      "Village Administrative Officer (VAO) Poverty Certificate",
+      "Bank Account Details with IFSC Code"
+    ],
+    "required_documents_hi": [
+      "आधार कार्ड",
+      "पट्टा / मकान भूमि स्वामित्व दस्तावेज",
+      "ग्राम प्रशासनिक अधिकारी (VAO) निर्धनता प्रमाण पत्र",
+      "आईएफएससी कोड के साथ बैंक खाता विवरण"
+    ],
+    "required_documents_ta": [
+      "ஆதார் அட்டை",
+      "மனை பட்டா / நில உரிமையியல் ஆவணம்",
+      "கிராம நிர்வாக அலுவலர் (VAO) சான்றிதழ்",
+      "வங்கி கணக்கு விவரங்கள்"
+    ],
+    "benefit_amount_or_type": "₹3,50,000 One-time House Construction Grant",
+    "benefit_amount_or_type_hi": "₹3,50,000 एकमुश्त मकान निर्माण अनुदान",
+    "benefit_amount_or_type_ta": "₹3,50,000 ஒருமுறை வீடு கட்டும் அரசு மானியம்",
+    "conflicts_with": ["state_scholarship"]
+  }
+]

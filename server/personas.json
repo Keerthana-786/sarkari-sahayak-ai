@@ -1,0 +1,92 @@
+[
+  {
+    "id": "persona_farmer",
+    "name": "Ramesh Kumar",
+    "title": "Smallholder Farmer",
+    "icon": "sprout",
+    "location": "Gorakhpur, Uttar Pradesh",
+    "preferred_language": "hi-IN",
+    "language_label": "Hindi (हिन्दी)",
+    "sample_input": "नमस्ते! मैं रमेश कुमार हूँ, उत्तर प्रदेश का छोटा किसान। मेरे पास 1.5 एकड़ ज़मीन है, परिवार में 4 लोग हैं और सालाना कमाई ₹65,000 है। क्या मेरे लिए कोई सरकारी सहायता है?",
+    "profile": {
+      "name": "Ramesh Kumar",
+      "age": 45,
+      "gender": "male",
+      "occupation": "farmer",
+      "annual_income": 65000,
+      "state": "Uttar Pradesh",
+      "land_ownership_acres": 1.5,
+      "family_size": 4,
+      "pucca_house_owned": false,
+      "government_employee": false,
+      "existing_benefits": ["Ration Card"],
+      "documents_held": [
+        "Aadhaar Card (Linked to Bank Account)",
+        "Land Record Certificate (Khasra / Khatauni / Chitta)",
+        "Active Bank Account Passbook",
+        "Self-Declaration Form for Small Landholders",
+        "Ration Card (BPL / PHH Priority Household)",
+        "Income Certificate (Issued by Tehsildar)",
+        "Family ID Card"
+      ]
+    }
+  },
+  {
+    "id": "persona_student",
+    "name": "Priya Sundaram",
+    "title": "College Student",
+    "icon": "graduation-cap",
+    "location": "Madurai, Tamil Nadu",
+    "preferred_language": "ta-IN",
+    "language_label": "Tamil (தமிழ்)",
+    "sample_input": "வணக்கம்! என் பெயர் பிரியா சுந்தரம். நான் தமிழ்நாட்டில் கல்லூரி படிக்கும் 19 வயது மாணவி. என் குடும்ப ஆண்டு வருமானம் ₹1,20,000. எங்களுக்கு சொந்தமாக சிமெண்ட் வீடு இல்லை. எனக்கு என்ன அரசு திட்டங்கள் கிடைக்கும்?",
+    "profile": {
+      "name": "Priya Sundaram",
+      "age": 19,
+      "gender": "female",
+      "occupation": "student",
+      "annual_income": 120000,
+      "state": "Tamil Nadu",
+      "land_ownership_acres": 0,
+      "family_size": 3,
+      "pucca_house_owned": false,
+      "government_employee": false,
+      "existing_benefits": [],
+      "documents_held": [
+        "Aadhaar Card",
+        "College Bonafide Student Certificate",
+        "SSLC/HSC Marksheet",
+        "State Domicile Certificate",
+        "Patta / House Site Title Deed",
+        "Village Administrative Officer (VAO) Poverty Certificate",
+        "Bank Account Details with IFSC Code"
+      ]
+    }
+  },
+  {
+    "id": "persona_gigworker",
+    "name": "Vikram Singh",
+    "title": "Gig Worker / Delivery Driver",
+    "icon": "bike",
+    "location": "Mumbai, Maharashtra",
+    "preferred_language": "en-IN",
+    "language_label": "English",
+    "sample_input": "Hi! I am Vikram Singh, 28 years old gig worker delivering in Mumbai. My annual earnings are about ₹1,80,000. I live in rented house with my mother. I only have Aadhaar card right now. What schemes can I get?",
+    "profile": {
+      "name": "Vikram Singh",
+      "age": 28,
+      "gender": "male",
+      "occupation": "gig_worker",
+      "annual_income": 180000,
+      "state": "Maharashtra",
+      "land_ownership_acres": 0,
+      "family_size": 2,
+      "pucca_house_owned": false,
+      "government_employee": false,
+      "existing_benefits": [],
+      "documents_held": [
+        "Aadhaar Card"
+      ]
+    }
+  }
+]
