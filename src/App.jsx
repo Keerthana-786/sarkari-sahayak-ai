@@ -139,24 +139,42 @@ export default function App() {
       setProfile(newProfile);
       setEligibilityReport(newEligibility);
 
-      const eligibleCount = newEligibility?.summary?.eligible_count || 0;
-      const conflictsCount = newEligibility?.summary?.conflicts_count || 0;
-
       const isHi = currentLang === 'hi-IN';
       const isTa = currentLang === 'ta-IN';
 
-      let botReply = isHi
-        ? `मैंने आपके प्रोफाइल को अपडेट कर दिया है। नियम इंजन के अनुसार आप ${eligibleCount} योजनाओं के लिए पात्र हैं।`
-        : isTa
-        ? `உங்கள் சுயவிவரம் புதுப்பிக்கப்பட்டது. விதிகள் எஞ்சின் படி நீங்கள் ${eligibleCount} திட்டங்களுக்கு தகுதியானவர்.`
-        : `Updated your profile parameters. Based on the rules engine, you meet criteria for ${eligibleCount} schemes.`;
+      const eligibleSchemesList = newEligibility?.results?.filter(r => r.is_eligible) || [];
+      const eligibleCount = eligibleSchemesList.length;
+      const conflictsCount = newEligibility?.summary?.conflicts_count || 0;
 
-      if (conflictsCount > 0) {
-        botReply += isHi
-          ? ` ध्यान दें: ${conflictsCount} योजनाओं में परस्पर नीति टकराव पाया गया है।`
+      let botReply = '';
+
+      if (eligibleCount > 0) {
+        const schemeNamesStr = eligibleSchemesList.map(s => 
+          isHi ? s.scheme_name_hi : isTa ? s.scheme_name_ta : s.scheme_name
+        ).join(', ');
+
+        botReply = isHi
+          ? `बधाई हो! आपकी जानकारी के आधार पर आप निम्नलिखित ${eligibleCount} योजनाओं के लिए पात्र हैं: ${schemeNamesStr}।`
           : isTa
-          ? ` குறிப்பு: ${conflictsCount} திட்டங்களுக்கு இடையே கொள்கை மோதல் கண்டறியப்பட்டுள்ளது.`
-          : ` Note: Mutual policy conflict detected for ${conflictsCount} schemes.`;
+          ? `வாழ்த்துக்கள்! உங்கள் தகவலின் அடிப்படையில் நீங்கள் பின்வரும் ${eligibleCount} திட்டங்களுக்குத் தகுதியானவர்: ${schemeNamesStr}.`
+          : `Great news! Based on your parameters, you satisfy eligibility for ${eligibleCount} scheme(s): ${schemeNamesStr}.`;
+
+        if (conflictsCount > 0) {
+          botReply += isHi
+            ? ` ध्यान दें: इन योजनाओं में परस्पर नीति टकराव पाया गया है। नीचे तुलना तालिका देखें।`
+            : isTa
+            ? ` குறிப்பு: இத்திட்டங்களுக்கு இடையே கொள்கை மோதல் கண்டறியப்பட்டுள்ளது. கீழே உள்ள ஒப்பீட்டு அட்டவணையைப் பார்க்கவும்.`
+            : ` Note: Mutual policy conflict detected between state schemes. Review the comparison table below to choose your preferred scheme.`;
+        }
+      } else {
+        const nameStr = newProfile.name || (isHi ? 'नागरिक' : isTa ? 'குடிமகன்' : 'Citizen');
+        const stateStr = newProfile.state || (isHi ? 'राज्य अनिर्दिष्ट' : isTa ? 'மாநிலம் குறிப்பிடப்படவில்லை' : 'State unspecified');
+
+        botReply = isHi
+          ? `मैंने आपका विवरण अपडेट कर दिया है (${nameStr}, ${stateStr})। योजनाओं की पूर्ण पात्रता जांचने के लिए कृपया अपना व्यवसाय (किसान/छात्र), वार्षिक आय और निवास राज्य बताएं।`
+          : isTa
+          ? `உங்கள் விவரங்கள் புதுப்பிக்கப்பட்டன (${nameStr}, ${stateStr}). தகுதி நிலையை உறுதி செய்ய உங்கள் தொழில், ஆண்டு வருமானம் மற்றும் வசிக்கும் மாநிலத்தை தெரிவிக்கவும்.`
+          : `I've updated your parameters (${nameStr}, ${stateStr}). To check exact eligibility, please specify your occupation (farmer/student/gig worker), annual income, and state.`;
       }
 
       setMessages((prev) => [

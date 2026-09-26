@@ -131,35 +131,81 @@ function localRuleBasedExtract(text, currentProfile) {
   const profile = { ...currentProfile };
   const lower = text.toLowerCase();
 
-  const nameMatch = text.match(/(?:name is|आई एम|मैं|பெயர்|naam)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+  // Name extraction
+  const nameMatch = text.match(/(?:name is|नाम|आई एम|मैं|பெயர்|naam)\s+([A-Za-z\u0900-\u097F\u0B80-\u0BFF]+(?:\s+[A-Za-z\u0900-\u097F\u0B80-\u0BFF]+)?)/i);
   if (nameMatch) profile.name = nameMatch[1];
 
-  const ageMatch = lower.match(/(\d{1,2})\s*(?:years|yr|साल|वयदु|age)/);
-  if (ageMatch) profile.age = parseInt(ageMatch[1], 10);
+  // Age extraction
+  const ageMatch = lower.match(/(\d{1,2})\s*(?:years|yr|साल|वर्ष|वयது|age|साल का|साल की)/);
+  if (ageMatch) {
+    profile.age = parseInt(ageMatch[1], 10);
+  } else {
+    const standaloneAge = lower.match(/\b(1[89]|[2-9][0-9])\b/);
+    if (standaloneAge && !profile.age) {
+      profile.age = parseInt(standaloneAge[1], 10);
+    }
+  }
 
-  if (lower.includes('farmer') || lower.includes('किसान') || lower.includes('விவசாயி')) profile.occupation = 'farmer';
-  else if (lower.includes('student') || lower.includes('छात्र') || lower.includes('மாணவி')) profile.occupation = 'student';
-  else if (lower.includes('gig') || lower.includes('delivery') || lower.includes('driver')) profile.occupation = 'gig_worker';
+  // Occupation extraction
+  if (lower.includes('farmer') || lower.includes('किसान') || lower.includes('कृषक') || lower.includes('खेती') || lower.includes('விவசாயி') || lower.includes('விவசாயம்')) {
+    profile.occupation = 'farmer';
+  } else if (lower.includes('student') || lower.includes('छात्र') || lower.includes('छात्रा') || lower.includes('पढ़ाई') || lower.includes('कॉलज') || lower.includes('மாணவி') || lower.includes('மாணவர்') || lower.includes('கல்லூரி')) {
+    profile.occupation = 'student';
+  } else if (lower.includes('gig') || lower.includes('delivery') || lower.includes('driver') || lower.includes('swiggy') || lower.includes('zomato') || lower.includes('uber') || lower.includes('ola') || lower.includes('ड्राइवर') || lower.includes('ऑटो')) {
+    profile.occupation = 'gig_worker';
+  } else if (lower.includes('unemployed') || lower.includes('jobless') || lower.includes('बेरोजगार')) {
+    profile.occupation = 'unemployed';
+  }
 
+  // Income extraction
   const lakhMatch = lower.match(/(?:₹|rs\.?|inr)?\s*([\d.]+)\s*(?:lakh|lakhs|लाख|லட்சம்)/);
   if (lakhMatch) {
     profile.annual_income = parseFloat(lakhMatch[1]) * 100000;
   } else {
-    const directIncome = lower.match(/(?:₹|rs\.?|inr)?\s*([\d,]{4,7})/);
-    if (directIncome) {
-      profile.annual_income = parseInt(directIncome[1].replace(/,/g, ''), 10);
+    const thousandMatch = lower.match(/(?:₹|rs\.?|inr)?\s*([\d.]+)\s*(?:thousand|k|हजार|ஆயிரம்)/);
+    if (thousandMatch) {
+      profile.annual_income = parseFloat(thousandMatch[1]) * 1000;
+    } else {
+      const directIncome = lower.match(/(?:₹|rs\.?|inr)?\s*([\d,]{4,7})/);
+      if (directIncome) {
+        profile.annual_income = parseInt(directIncome[1].replace(/,/g, ''), 10);
+      }
     }
   }
 
-  if (lower.includes('uttar pradesh') || lower.includes('up') || lower.includes('उत्तर प्रदेश')) profile.state = 'Uttar Pradesh';
-  else if (lower.includes('tamil nadu') || lower.includes('tn') || lower.includes('தமிழ்நாடு')) profile.state = 'Tamil Nadu';
-  else if (lower.includes('maharashtra') || lower.includes('mumbai') || lower.includes('महाराष्ट्र')) profile.state = 'Maharashtra';
+  // State extraction
+  if (lower.includes('uttar pradesh') || lower.includes('up') || lower.includes('उत्तर प्रदेश') || lower.includes('गोरखपुर') || lower.includes('लखनऊ')) {
+    profile.state = 'Uttar Pradesh';
+  } else if (lower.includes('tamil nadu') || lower.includes('tn') || lower.includes('தமிழ்நாடு') || lower.includes('சென்னை') || lower.includes('மதுரை')) {
+    profile.state = 'Tamil Nadu';
+  } else if (lower.includes('maharashtra') || lower.includes('mumbai') || lower.includes('महाराष्ट्र') || lower.includes('मुंबई')) {
+    profile.state = 'Maharashtra';
+  } else if (lower.includes('bihar') || lower.includes('बिहार') || lower.includes('पटना')) {
+    profile.state = 'Bihar';
+  }
 
-  const landMatch = lower.match(/([\d.]+)\s*(?:acre|acres|एकड़|ஏக்கர்)/);
-  if (landMatch) profile.land_ownership_acres = parseFloat(landMatch[1]);
+  // Land acres extraction
+  const landMatch = lower.match(/([\d.]+)\s*(?:acre|acres|एकड़|ஏக்கர்|बीघा)/);
+  if (landMatch) {
+    profile.land_ownership_acres = parseFloat(landMatch[1]);
+  }
 
-  if (lower.includes('female') || lower.includes('woman') || lower.includes('महिला')) profile.gender = 'female';
-  else if (lower.includes('male') || lower.includes('man') || lower.includes('किसान')) profile.gender = 'male';
+  // Gender extraction
+  if (lower.includes('female') || lower.includes('woman') || lower.includes('girl') || lower.includes('महिला') || lower.includes('लड़की') || lower.includes('छात्रा') || lower.includes('மாணவி') || lower.includes('பெண்')) {
+    profile.gender = 'female';
+  } else if (lower.includes('male') || lower.includes('man') || lower.includes('boy') || lower.includes('पुरुष') || lower.includes('लड़का') || lower.includes('किसान') || lower.includes('ஆண்')) {
+    profile.gender = 'male';
+  }
+
+  // Initial document defaults if mentioned
+  if (lower.includes('aadhaar') || lower.includes('आधार') || lower.includes('ஆதார்')) {
+    const docs = Array.from(new Set([...(profile.documents_held || []), 'Aadhaar Card']));
+    profile.documents_held = docs;
+  }
+  if (lower.includes('ration') || lower.includes('राशन') || lower.includes('ரேஷன்')) {
+    const docs = Array.from(new Set([...(profile.documents_held || []), 'Ration Card']));
+    profile.documents_held = docs;
+  }
 
   return profile;
 }
