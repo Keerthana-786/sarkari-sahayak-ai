@@ -68,6 +68,10 @@ export default function SchemeMatchCard({ schemeResult, onSelectForDraft, t, cur
 
   const StatusIcon = statusBadge.icon;
 
+  const failReasonText = isHindi ? (schemeResult.fail_reason_hi || schemeResult.fail_reason)
+    : isTamil ? (schemeResult.fail_reason_ta || schemeResult.fail_reason)
+    : schemeResult.fail_reason;
+
   return (
     <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm transition-all hover:border-slate-300 dark:hover:border-slate-700">
       
@@ -103,10 +107,10 @@ export default function SchemeMatchCard({ schemeResult, onSelectForDraft, t, cur
       </div>
 
       {/* Failure reason callout if ineligible */}
-      {!is_eligible && fail_reason && (
+      {!is_eligible && failReasonText && (
         <div className="p-3 mb-4 rounded-lg bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-xs text-rose-700 dark:text-rose-300">
           <span className="font-semibold">{t.reasonLabel} </span>
-          {fail_reason}
+          {failReasonText}
         </div>
       )}
 

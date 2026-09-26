@@ -14,6 +14,8 @@ export function evaluateEligibility(profile, schemes) {
     const criteriaEvaluations = [];
     let isEligible = true;
     let failReason = null;
+    let failReasonHi = null;
+    let failReasonTa = null;
 
     // 1. State Level Check
     if (scheme.level === 'state' && scheme.state !== 'all') {
@@ -23,6 +25,9 @@ export function evaluateEligibility(profile, schemes) {
       if (citizenState && citizenState !== schemeState) {
         isEligible = false;
         failReason = `Residency requirement mismatch: Scheme is for residents of ${scheme.state}, citizen is in ${profile.state || 'unspecified state'}.`;
+        failReasonHi = `निवास आवश्यकता बेमेल: यह योजना ${scheme.state} के निवासियों के लिए है, आपकी प्रोफाइल में राज्य ${profile.state || 'अनिर्दिष्ट'} दर्ज है।`;
+        failReasonTa = `இருப்பிடத் தேவை பொருந்தவில்லை: திட்டம் ${scheme.state} மாநிலத்தவருக்கு மட்டுமே உரியது, குடிமகன் ${profile.state || 'குறிப்பிடப்படாத மாநிலம்'} மாநிலத்தைச் சேர்ந்தவர்.`;
+
         criteriaEvaluations.push({
           field: 'state',
           operator: 'eq',
@@ -46,7 +51,9 @@ export function evaluateEligibility(profile, schemes) {
         passed = false;
         if (isEligible) {
           isEligible = false;
-          failReason = `Missing required profile field: '${criterion.field}'`;
+          failReason = `Missing required profile attribute: '${criterion.field}'`;
+          failReasonHi = `आवश्यक प्रोफाइल विवरण उपलब्ध नहीं है: '${criterion.field}'`;
+          failReasonTa = `தேவையான சுயவிவர விவரம் விடுபட்டுள்ளது: '${criterion.field}'`;
         }
       } else {
         switch (criterion.operator) {
@@ -71,6 +78,8 @@ export function evaluateEligibility(profile, schemes) {
         if (!passed && isEligible) {
           isEligible = false;
           failReason = `Does not satisfy criteria for '${criterion.field}' (Found: ${val}, Required: ${criterion.operator} ${criterion.value})`;
+          failReasonHi = `'${criterion.field}' की पात्रता मानदंड पूरी नहीं हुई (वर्तमान: ${val}, आवश्यक: ${criterion.operator} ${criterion.value})`;
+          failReasonTa = `'${criterion.field}' தகுதிக்கான அளவுகோலை பூர்த்தி செய்யவில்லை (தற்போது: ${val}, தேவை: ${criterion.operator} ${criterion.value})`;
         }
       }
 
@@ -108,6 +117,8 @@ export function evaluateEligibility(profile, schemes) {
       benefit_amount_or_type_ta: scheme.benefit_amount_or_type_ta || scheme.benefit_amount_or_type,
       is_eligible: isEligible,
       fail_reason: failReason,
+      fail_reason_hi: failReasonHi || failReason,
+      fail_reason_ta: failReasonTa || failReason,
       criteria_evaluations: criteriaEvaluations,
       required_documents: scheme.required_documents,
       required_documents_hi: scheme.required_documents_hi || scheme.required_documents,
