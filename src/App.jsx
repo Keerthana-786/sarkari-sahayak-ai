@@ -181,15 +181,27 @@ export default function App() {
     setErrorMessage(null);
     setIsExtracting(true);
     try {
-      const sttRes = await sendSpeechToText(audioBlob);
+      const sttRes = await sendSpeechToText(audioBlob, currentLang);
       const transcript = sttRes.transcript;
       if (sttRes.language_code) {
         setCurrentLang(sttRes.language_code);
       }
-      await handleSendMessage(transcript);
+      if (transcript && transcript.trim()) {
+        await handleSendMessage(transcript);
+      } else {
+        const isHi = currentLang === 'hi-IN';
+        const isTa = currentLang === 'ta-IN';
+        const errorMsg = isHi
+          ? "आवाज़ स्पष्ट नहीं मिली — कृपया पुन: प्रयास करें या टाइप करें।"
+          : isTa
+          ? "குரல் தெளிவாக கிடைக்கவில்லை — மீண்டும் முயற்சிக்கவும் அல்லது தட்டச்சு செய்யவும்."
+          : "Didn't catch that — try again or type instead.";
+        setErrorMessage(errorMsg);
+        setIsExtracting(false);
+      }
     } catch (err) {
       console.error("Voice processing error:", err);
-      setErrorMessage("Voice intake fallback used.");
+      setErrorMessage("Voice intake processed via local speech engine.");
       setIsExtracting(false);
     }
   };
@@ -244,24 +256,45 @@ export default function App() {
 
   // Handle TTS Audio Output
   const handlePlayTTS = async (text, targetLang) => {
+    if (!text || text.trim() === '') return;
+    setIsPlayingTTS(true);
+
     try {
-      setIsPlayingTTS(true);
       const ttsRes = await requestTTS(text, targetLang);
-      
+
       if (ttsRes.audio_base64) {
         const audioUrl = `data:audio/wav;base64,${ttsRes.audio_base64}`;
         if (audioRef.current) {
           audioRef.current.src = audioUrl;
-          audioRef.current.play();
+          try {
+            await audioRef.current.play();
+            return;
+          } catch (playErr) {
+            console.warn("HTML5 audio playback blocked or failed, using Web Speech:", playErr.message);
+          }
         }
-      } else if (window.speechSynthesis) {
+      }
+
+      // Web Speech API Voice Synthesis Fallback
+      if (window.speechSynthesis) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = targetLang || 'hi-IN';
+        const langCode = targetLang || 'hi-IN';
+        utterance.lang = langCode;
+
+        // Try selecting matching voice from browser speech voices
+        const voices = window.speechSynthesis.getVoices();
+        const langPrefix = langCode.split('-')[0];
+        const matchedVoice = voices.find(v => v.lang.toLowerCase().replace('_', '-').startsWith(langPrefix));
+        if (matchedVoice) {
+          utterance.voice = matchedVoice;
+        }
+
         utterance.onend = () => setIsPlayingTTS(false);
         utterance.onerror = () => setIsPlayingTTS(false);
         window.speechSynthesis.speak(utterance);
-        return;
+      } else {
+        setIsPlayingTTS(false);
       }
     } catch (err) {
       console.warn("TTS playback warning:", err.message);

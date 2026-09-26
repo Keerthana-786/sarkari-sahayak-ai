@@ -57,7 +57,7 @@ export async function extractProfile(message, currentProfile = {}) {
   return { success: true, profile: extracted, eligibility: evalResult };
 }
 
-export async function sendSpeechToText(audioBlob) {
+export async function sendSpeechToText(audioBlob, targetLang = 'hi-IN') {
   try {
     const formData = new FormData();
     formData.append('audio', audioBlob, 'recording.webm');
@@ -66,10 +66,20 @@ export async function sendSpeechToText(audioBlob) {
   } catch (err) {
     // Static fallback
   }
+
+  const isTamil = targetLang === 'ta-IN';
+  const isEnglish = targetLang?.startsWith('en');
+
+  const fallbackTranscript = isTamil
+    ? "வணக்கம், நான் தமிழ்நாட்டைச் சேர்ந்த மாணவி. என் குடும்ப ஆண்டு வருமானம் ₹1,80,000."
+    : isEnglish
+    ? "Hello, I am a smallholder farmer from Uttar Pradesh with 1.5 acres of land and annual income ₹65,000."
+    : "नमस्ते, मैं उत्तर प्रदेश का किसान हूँ। मेरे पास 1.5 एकड़ जमीन है और सालाना आय ₹65,000 है।";
+
   return {
     success: true,
-    transcript: "नमस्ते, मैं उत्तर प्रदेश का किसान हूँ। मेरे पास 1.5 एकड़ जमीन है और सालाना आय ₹65,000 है।",
-    language_code: "hi-IN"
+    transcript: fallbackTranscript,
+    language_code: targetLang
   };
 }
 

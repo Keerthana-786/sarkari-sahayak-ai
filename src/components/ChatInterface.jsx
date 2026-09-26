@@ -97,7 +97,10 @@ export default function ChatInterface({
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={() => onPlayTTS(messages.map(m => m.text).join('. '), currentLang)}
+            onClick={() => {
+              const lastBotText = [...messages].reverse().find(m => m.sender === 'bot')?.text || t.chatHeader;
+              onPlayTTS(lastBotText, currentLang);
+            }}
             className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-md transition-colors border border-slate-700"
           >
             <Volume2 className={`w-3.5 h-3.5 ${isPlayingTTS ? 'animate-bounce text-slate-100' : ''}`} />
